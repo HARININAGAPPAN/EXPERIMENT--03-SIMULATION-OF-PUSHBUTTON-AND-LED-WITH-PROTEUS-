@@ -72,13 +72,8 @@ We are now at the last part of step by step guide on how to simulate STM32 proje
 
 ## STM 32 CUBE PROGRAM :
 ```
-DEVELOPED BY : Harini N
-REG NUMBER : 212223040057
-```
-```
-
 #include "main.h"
-#include <stdbool.h>
+#include<stdbool.h>
 void push_button();
 bool button_status;
 
@@ -87,38 +82,41 @@ static void MX_GPIO_Init(void);
 
 int main(void)
 {
-  HAL_Init();
+
+ HAL_Init();
+
   SystemClock_Config();
   MX_GPIO_Init();
   while (1)
   {
-   
+  push_button();
   }
- 
-}
-void push_button()
-{
-	button_status = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
-	if(button_status==0)
-	{
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
-	}
-	else
-	{
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-	}
+
 }
 
+void push_button()
+{
+	button_status = HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5);
+	if(button_status==0)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_SET);
+	}
+	else{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_7,GPIO_PIN_RESET);
+	}
+}
 
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  
+
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-  
+
+
+
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -127,7 +125,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
- 
+
+
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
@@ -146,21 +145,20 @@ static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
- 
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
+   __HAL_RCC_GPIOA_CLK_ENABLE();
 
- 
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
 
-  
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);
+
+
+
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
- 
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+
+  GPIO_InitStruct.Pin = GPIO_PIN_7;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -168,27 +166,47 @@ static void MX_GPIO_Init(void)
 
 }
 
-
 void Error_Handler(void)
 {
- 
+
+
+  __disable_irq();
   while (1)
   {
+
   }
-  
+
 }
 
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
- 
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
 }
+#endif 
+
+
+
 
 ```
 
 ## Output screen shots of proteus  :
 
-![Screenshot 2025-03-18 145631](https://github.com/user-attachments/assets/5e10cbd2-c98c-4ae7-b614-db684ed59a33)
-![Screenshot 2025-03-18 145649](https://github.com/user-attachments/assets/de32310b-1b6d-4f30-ab75-2ffa67c0bce2)
+<img width="1060" height="739" alt="image" src="https://github.com/user-attachments/assets/6d0a71f1-34d0-4f56-bf0f-dbc3be39fe5c" />
+
+<img width="743" height="564" alt="image" src="https://github.com/user-attachments/assets/d363e5f1-1b6e-4d2e-be03-538bfa8ad921" />
+
+
 
  
  
